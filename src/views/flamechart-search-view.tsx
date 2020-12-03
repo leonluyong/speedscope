@@ -14,7 +14,7 @@ import {CallTreeNode} from '../lib/profile'
 export const FlamechartSearchContext = createContext<FlamechartSearchData | null>(null)
 
 export interface FlamechartSearchProps {
-  flamechart: Flamechart
+  flamechart: Flamechart[]
   selectedNode: CallTreeNode | null
   setSelectedNode: (node: CallTreeNode | null) => void
   configSpaceViewportRect: Rect
@@ -24,7 +24,7 @@ export interface FlamechartSearchProps {
 
 interface FlamechartSearchData {
   results: FlamechartSearchResults | null
-  flamechart: Flamechart
+  flamechart: Flamechart[]
   selectedNode: CallTreeNode | null
   setSelectedNode: (node: CallTreeNode | null) => void
   configSpaceViewportRect: Rect
@@ -106,7 +106,7 @@ export const FlamechartSearchView = memo(() => {
 
       setSelectedNode(match.node)
       setConfigSpaceViewportRect(
-        flamechart.getClampedConfigSpaceViewportRect({configSpaceViewportRect: viewportRect}),
+        flamechart[0].getClampedConfigSpaceViewportRect({configSpaceViewportRect: viewportRect}),
       )
     },
     [configSpaceViewportRect, setConfigSpaceViewportRect, setSelectedNode, flamechart],

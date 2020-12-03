@@ -11,16 +11,18 @@ export enum FlamechartType {
 // A utility class for storing cached search results to avoid recomputation when
 // the search results & profile did not change.
 export class ProfileSearchResults {
-  constructor(readonly profile: Profile, readonly searchQuery: string) {}
+  constructor(readonly profile: Profile[], readonly searchQuery: string) {}
 
   private matches: Map<Frame, FuzzyMatch> | null = null
   getMatchForFrame(frame: Frame): FuzzyMatch | null {
     if (!this.matches) {
       this.matches = new Map()
-      this.profile.forEachFrame(frame => {
-        const match = fuzzyMatchStrings(frame.name, this.searchQuery)
-        if (match == null) return
-        this.matches!.set(frame, match)
+      this.profile.forEach(profile =>{
+        profile.forEachFrame(frame => {
+          const match = fuzzyMatchStrings(frame.name, this.searchQuery)
+          if (match == null) return
+          this.matches!.set(frame, match)
+        })
       })
     }
     return this.matches.get(frame) || null
@@ -38,7 +40,7 @@ interface CachedFlamechartResult {
 }
 
 export class FlamechartSearchResults {
-  constructor(readonly flamechart: Flamechart, readonly profileResults: ProfileSearchResults) {}
+  constructor(readonly flamechart: Flamechart[], readonly profileResults: ProfileSearchResults) {}
 
   private matches: CachedFlamechartResult | null = null
   private getResults(): CachedFlamechartResult {
@@ -60,11 +62,13 @@ export class FlamechartSearchResults {
           visit(child, depth + 1)
         })
       }
+      this.flamechart.forEach(flamechart =>{
+        const layers = flamechart.getLayers()
+        if (layers.length > 0) {
+          layers[0].forEach(frame => visit(frame, 0))
+        }
+      })
 
-      const layers = this.flamechart.getLayers()
-      if (layers.length > 0) {
-        layers[0].forEach(frame => visit(frame, 0))
-      }
 
       this.matches = {matches, indexForNode}
     }

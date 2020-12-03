@@ -72,12 +72,14 @@ export const CalleeFlamegraphView = memo((ownProps: FlamechartViewContainerProps
   })
   const flamechartRenderer = getCalleeFlamegraphRenderer({canvasContext, flamechart})
 
+  const flameChartList = [flamechart]
+  const flameChartRendererList = [flamechartRenderer]
   return (
     <FlamechartWrapper
       theme={theme}
       renderInverted={false}
-      flamechart={flamechart}
-      flamechartRenderer={flamechartRenderer}
+      flamechart={flameChartList}
+      flamechartRenderer={flameChartRendererList}
       canvasContext={canvasContext}
       getCSSColorForFrame={getCSSColorForFrame}
       {...useFlamechartSetters(FlamechartID.SANDWICH_CALLEES, index)}

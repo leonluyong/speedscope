@@ -24,8 +24,8 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
 
   private configSpaceSize() {
     return new Vec2(
-      this.props.flamechart.getTotalWeight(),
-      this.props.flamechart.getLayers().length,
+      this.props.flamechart[0].getTotalWeight(),
+      this.props.flamechart[0].getLayers().length,
     )
   }
 
@@ -34,7 +34,7 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
 
     const configSpaceSize = this.configSpaceSize()
 
-    const width = this.props.flamechart.getClampedViewportWidth(viewportRect.size.x)
+    const width = this.props.flamechart[0].getClampedViewportWidth(viewportRect.size.x)
     const size = viewportRect.size.withX(width)
 
     const origin = Vec2.clamp(
@@ -64,13 +64,14 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
 
   onNodeClick = (node: CallTreeNode | null) => {
     this.props.setSelectedNode(node)
+    console.log(node)
   }
 
   formatValue(weight: number) {
-    const totalWeight = this.props.flamechart.getTotalWeight()
+    const totalWeight = this.props.flamechart[0].getTotalWeight()
     const percent = (100 * weight) / totalWeight
     const formattedPercent = formatPercent(percent)
-    return `${this.props.flamechart.formatValue(weight)} (${formattedPercent})`
+    return `${this.props.flamechart[0].formatValue(weight)} (${formattedPercent})`
   }
 
   renderTooltip() {
@@ -107,30 +108,32 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
           theme={this.props.theme}
           configSpaceViewportRect={this.props.configSpaceViewportRect}
           transformViewport={this.transformViewport}
-          flamechart={this.props.flamechart}
-          flamechartRenderer={this.props.flamechartRenderer}
+          flamechart={this.props.flamechart[0]}
+          flamechartRenderer={this.props.flamechartRenderer[0]}
           canvasContext={this.props.canvasContext}
           setConfigSpaceViewportRect={this.setConfigSpaceViewportRect}
         />
         <ProfileSearchContext.Consumer>
           {searchResults => (
             <Fragment>
-              <FlamechartPanZoomView
-                theme={this.props.theme}
-                canvasContext={this.props.canvasContext}
-                flamechart={this.props.flamechart}
-                flamechartRenderer={this.props.flamechartRenderer}
-                renderInverted={false}
-                onNodeHover={this.onNodeHover}
-                onNodeSelect={this.onNodeClick}
-                selectedNode={this.props.selectedNode}
-                transformViewport={this.transformViewport}
-                configSpaceViewportRect={this.props.configSpaceViewportRect}
-                setConfigSpaceViewportRect={this.setConfigSpaceViewportRect}
-                logicalSpaceViewportSize={this.props.logicalSpaceViewportSize}
-                setLogicalSpaceViewportSize={this.setLogicalSpaceViewportSize}
-                searchResults={searchResults}
-              />
+              {this.props.flamechart.map((flame, index) => (
+                <FlamechartPanZoomView
+                  theme={this.props.theme}
+                  canvasContext={this.props.canvasContext}
+                  flamechart={flame}
+                  flamechartRenderer={this.props.flamechartRenderer[index]}
+                  renderInverted={false}
+                  onNodeHover={this.onNodeHover}
+                  onNodeSelect={this.onNodeClick}
+                  selectedNode={this.props.selectedNode}
+                  transformViewport={this.transformViewport}
+                  configSpaceViewportRect={this.props.configSpaceViewportRect}
+                  setConfigSpaceViewportRect={this.setConfigSpaceViewportRect}
+                  logicalSpaceViewportSize={this.props.logicalSpaceViewportSize}
+                  setLogicalSpaceViewportSize={this.setLogicalSpaceViewportSize}
+                  searchResults={searchResults}
+                />
+              ))}
               <FlamechartSearchView />
             </Fragment>
           )}
@@ -138,7 +141,7 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
         {this.renderTooltip()}
         {this.props.selectedNode && (
           <FlamechartDetailView
-            flamechart={this.props.flamechart}
+            flamechart={this.props.flamechart[0]}
             getCSSColorForFrame={this.props.getCSSColorForFrame}
             selectedNode={this.props.selectedNode}
           />

@@ -18,7 +18,7 @@ export const ProfileSearchContext = createContext<ProfileSearchResults | null>(n
 
 export const ProfileSearchContextProvider = ({children}: {children: ComponentChildren}) => {
   const activeProfileState = useActiveProfileState()
-  const profile: Profile | null = activeProfileState ? activeProfileState.profile : null
+  const profile: Profile[] | null = activeProfileState ? activeProfileState.allProfile : null
   const searchIsActive = useAppSelector(state => state.searchIsActive, [])
   const searchQuery = useAppSelector(state => state.searchQuery, [])
 

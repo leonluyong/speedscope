@@ -13,7 +13,7 @@ import {withTheme} from './themes/theme'
 export class FlamechartWrapper extends StatelessComponent<FlamechartViewProps> {
   private clampViewportToFlamegraph(viewportRect: Rect) {
     const {flamechart, renderInverted} = this.props
-    return flamechart.getClampedConfigSpaceViewportRect({
+    return flamechart[0].getClampedConfigSpaceViewportRect({
       configSpaceViewportRect: viewportRect,
       renderInverted,
     })
@@ -29,10 +29,10 @@ export class FlamechartWrapper extends StatelessComponent<FlamechartViewProps> {
     this.setConfigSpaceViewportRect(transform.transformRect(this.props.configSpaceViewportRect))
   }
   private formatValue(weight: number) {
-    const totalWeight = this.props.flamechart.getTotalWeight()
+    const totalWeight = this.props.flamechart[0].getTotalWeight()
     const percent = (100 * weight) / totalWeight
     const formattedPercent = formatPercent(percent)
-    return `${this.props.flamechart.formatValue(weight)} (${formattedPercent})`
+    return `${this.props.flamechart[0].formatValue(weight)} (${formattedPercent})`
   }
   private renderTooltip() {
     if (!this.container) return null
@@ -77,8 +77,8 @@ export class FlamechartWrapper extends StatelessComponent<FlamechartViewProps> {
           configSpaceViewportRect={this.props.configSpaceViewportRect}
           setConfigSpaceViewportRect={this.setConfigSpaceViewportRect}
           transformViewport={this.transformViewport}
-          flamechart={this.props.flamechart}
-          flamechartRenderer={this.props.flamechartRenderer}
+          flamechart={this.props.flamechart[0]}
+          flamechartRenderer={this.props.flamechartRenderer[0]}
           canvasContext={this.props.canvasContext}
           renderInverted={this.props.renderInverted}
           logicalSpaceViewportSize={this.props.logicalSpaceViewportSize}

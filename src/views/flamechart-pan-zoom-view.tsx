@@ -755,24 +755,24 @@ export class FlamechartPanZoomView extends Component<FlamechartPanZoomViewProps,
     return false
   }
   componentWillReceiveProps(nextProps: FlamechartPanZoomViewProps) {
-    if (this.props.flamechart !== nextProps.flamechart) {
-      this.hoveredLabel = null
-      this.renderCanvas()
-    } else if (this.props.searchResults !== nextProps.searchResults) {
-      this.renderCanvas()
-    } else if (this.props.selectedNode !== nextProps.selectedNode) {
-      this.renderCanvas()
-    } else if (this.props.configSpaceViewportRect !== nextProps.configSpaceViewportRect) {
-      this.renderCanvas()
-    } else if (this.props.canvasContext !== nextProps.canvasContext) {
-      if (this.props.canvasContext) {
-        this.props.canvasContext.removeBeforeFrameHandler(this.onBeforeFrame)
-      }
-      if (nextProps.canvasContext) {
-        nextProps.canvasContext.addBeforeFrameHandler(this.onBeforeFrame)
-        nextProps.canvasContext.requestFrame()
-      }
-    }
+    // if (this.props.flamechart !== nextProps.flamechart) {
+    //   //this.hoveredLabel = null
+    //   this.renderCanvas()
+    // } else if (this.props.searchResults !== nextProps.searchResults) {
+    //   this.renderCanvas()
+    // } else if (this.props.selectedNode !== nextProps.selectedNode) {
+    //   this.renderCanvas()
+    // } else if (this.props.configSpaceViewportRect !== nextProps.configSpaceViewportRect) {
+    //   this.renderCanvas()
+    // } else if (this.props.canvasContext !== nextProps.canvasContext) {
+    //   if (this.props.canvasContext) {
+    //     this.props.canvasContext.removeBeforeFrameHandler(this.onBeforeFrame)
+    //   }
+    //   if (nextProps.canvasContext) {
+    //     nextProps.canvasContext.addBeforeFrameHandler(this.onBeforeFrame)
+    //     nextProps.canvasContext.requestFrame()
+    //   }
+    // }
   }
   componentDidMount() {
     this.props.canvasContext.addBeforeFrameHandler(this.onBeforeFrame)

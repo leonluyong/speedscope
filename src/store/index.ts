@@ -164,7 +164,8 @@ export function useAppSelector<T>(selector: (t: ApplicationState) => T, cacheArg
 }
 
 export interface ActiveProfileState {
-  profile: Profile
+  profile: Profile,
+  allProfile: Profile[],
   index: number
   chronoViewState: FlamechartViewState
   leftHeavyViewState: FlamechartViewState
@@ -179,12 +180,20 @@ export function useActiveProfileState(): ActiveProfileState | null {
 
     const index = profileGroup.indexToView
     const profileState = profileGroup.profiles[index]
+    const allProfile = []
+    for (const p of profileGroup.profiles) {
+      allProfile.push(getProfileToView({
+        profile: p.profile,
+        flattenRecursion: state.flattenRecursion,
+      }))
+    }
     return {
       ...profileGroup.profiles[profileGroup.indexToView],
       profile: getProfileToView({
         profile: profileState.profile,
         flattenRecursion: state.flattenRecursion,
       }),
+      allProfile: allProfile,
       index: profileGroup.indexToView,
     }
   }, [])

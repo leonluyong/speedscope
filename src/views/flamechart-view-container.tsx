@@ -63,8 +63,8 @@ export function useFlamechartSetters(id: FlamechartID, profileIndex: number): Fl
 export type FlamechartViewProps = {
   theme: Theme
   canvasContext: CanvasContext
-  flamechart: Flamechart
-  flamechartRenderer: FlamechartRenderer
+  flamechart: Flamechart[]
+  flamechartRenderer: FlamechartRenderer[]
   renderInverted: boolean
   getCSSColorForFrame: (frame: Frame) => string
 } & FlamechartSetters &
@@ -116,26 +116,38 @@ export interface FlamechartViewContainerProps {
 
 export const ChronoFlamechartView = memo((props: FlamechartViewContainerProps) => {
   const {activeProfileState, glCanvas} = props
-  const {index, profile, chronoViewState} = activeProfileState
+  const {index, profile, allProfile, chronoViewState} = activeProfileState
 
   const theme = useTheme()
 
   const canvasContext = getCanvasContext({theme, canvas: glCanvas})
   const frameToColorBucket = getFrameToColorBucket(profile)
-  const getColorBucketForFrame = createGetColorBucketForFrame(frameToColorBucket)
   const getCSSColorForFrame = createGetCSSColorForFrame({theme, frameToColorBucket})
 
-  const flamechart = getChronoViewFlamechart({profile, getColorBucketForFrame})
-  const flamechartRenderer = getChronoViewFlamechartRenderer({
-    canvasContext,
-    flamechart,
-  })
+  // const flamechart = getChronoViewFlamechart({profile, getColorBucketForFrame})
+  // const flamechartRenderer = getChronoViewFlamechartRenderer({
+  //   canvasContext,
+  //   flamechart,
+  // })
+
+  const flameChartList = []
+  const flameChartRendererList = []
+  for (const profile of allProfile) {
+    const frameToColorBucket = getFrameToColorBucket(profile)
+    const getColorBucketForFrame = createGetColorBucketForFrame(frameToColorBucket)
+    const flamechart = getChronoViewFlamechart({profile, getColorBucketForFrame})
+    flameChartList.push(flamechart)
+    flameChartRendererList.push( getChronoViewFlamechartRenderer({
+        canvasContext,
+        flamechart,
+      }));
+  }
 
   const setters = useFlamechartSetters(FlamechartID.CHRONO, index)
 
   return (
     <FlamechartSearchContextProvider
-      flamechart={flamechart}
+      flamechart={flameChartList}
       selectedNode={chronoViewState.selectedNode}
       setSelectedNode={setters.setSelectedNode}
       configSpaceViewportRect={chronoViewState.configSpaceViewportRect}
@@ -144,8 +156,8 @@ export const ChronoFlamechartView = memo((props: FlamechartViewContainerProps) =
       <FlamechartView
         theme={theme}
         renderInverted={false}
-        flamechart={flamechart}
-        flamechartRenderer={flamechartRenderer}
+        flamechart={flameChartList}
+        flamechartRenderer={flameChartRendererList}
         canvasContext={canvasContext}
         getCSSColorForFrame={getCSSColorForFrame}
         {...chronoViewState}
@@ -194,12 +206,14 @@ export const LeftHeavyFlamechartView = memo((ownProps: FlamechartViewContainerPr
     canvasContext,
     flamechart,
   })
+  const flameChartList = [flamechart]
+  const flameChartRendererList = [flamechartRenderer]
 
   const setters = useFlamechartSetters(FlamechartID.LEFT_HEAVY, index)
 
   return (
     <FlamechartSearchContextProvider
-      flamechart={flamechart}
+      flamechart={flameChartList}
       selectedNode={leftHeavyViewState.selectedNode}
       setSelectedNode={setters.setSelectedNode}
       configSpaceViewportRect={leftHeavyViewState.configSpaceViewportRect}
@@ -208,8 +222,8 @@ export const LeftHeavyFlamechartView = memo((ownProps: FlamechartViewContainerPr
       <FlamechartView
         theme={theme}
         renderInverted={false}
-        flamechart={flamechart}
-        flamechartRenderer={flamechartRenderer}
+        flamechart={flameChartList}
+        flamechartRenderer={flameChartRendererList}
         canvasContext={canvasContext}
         getCSSColorForFrame={getCSSColorForFrame}
         {...leftHeavyViewState}

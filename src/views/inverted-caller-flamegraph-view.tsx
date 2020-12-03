@@ -80,13 +80,15 @@ export const InvertedCallerFlamegraphView = memo((ownProps: FlamechartViewContai
     getColorBucketForFrame,
   })
   const flamechartRenderer = getInvertedCallerFlamegraphRenderer({canvasContext, flamechart})
+  const flameChartList = [flamechart]
+  const flameChartRendererList = [flamechartRenderer]
 
   return (
     <FlamechartWrapper
       theme={theme}
       renderInverted={true}
-      flamechart={flamechart}
-      flamechartRenderer={flamechartRenderer}
+      flamechart={flameChartList}
+      flamechartRenderer={flameChartRendererList}
       canvasContext={canvasContext}
       getCSSColorForFrame={getCSSColorForFrame}
       {...useFlamechartSetters(FlamechartID.SANDWICH_INVERTED_CALLERS, index)}
