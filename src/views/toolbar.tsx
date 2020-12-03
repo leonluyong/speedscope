@@ -2,12 +2,19 @@ import {h, JSX, Fragment} from 'preact'
 import {StyleSheet, css} from 'aphrodite'
 import {Sizes, FontFamily, FontSize} from './style'
 import { useTheme, withTheme} from './themes/theme'
+import {useActiveProfileState} from "../store";
 
 function ToolbarCenterContent(): JSX.Element {
-    return <Fragment>Time Line Chart(Frame:1231-1233)</Fragment>
+    const activeProfileState = useActiveProfileState()
+    if (activeProfileState) {
+        return <Fragment>{activeProfileState.title}</Fragment>
+    } else {
+        return <Fragment>Time Line</Fragment>
+    }
 }
 
 export function Toolbar() {
+
     const style = getStyle(useTheme())
     return (
         <div className={css(style.toolbar)}>

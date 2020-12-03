@@ -170,11 +170,12 @@ export interface ActiveProfileState {
   chronoViewState: FlamechartViewState
   leftHeavyViewState: FlamechartViewState
   sandwichViewState: SandwichViewState
+  title: string
 }
 
 export function useActiveProfileState(): ActiveProfileState | null {
   return useAppSelector(state => {
-    const {profileGroup} = state
+    const {profileGroup, hashParams} = state
     if (!profileGroup) return null
     if (profileGroup.indexToView >= profileGroup.profiles.length) return null
 
@@ -194,6 +195,7 @@ export function useActiveProfileState(): ActiveProfileState | null {
         flattenRecursion: state.flattenRecursion,
       }),
       allProfile: allProfile,
+      title: hashParams.title||'Time Line',
       index: profileGroup.indexToView,
     }
   }, [])
