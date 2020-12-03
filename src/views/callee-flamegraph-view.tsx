@@ -39,6 +39,7 @@ const getCalleeFlamegraph = memoizeByShallowEquality<
   Flamechart
 >(({calleeProfile, getColorBucketForFrame}) => {
   return new Flamechart({
+    flameName: calleeProfile.getName(),
     getTotalWeight: calleeProfile.getTotalNonIdleWeight.bind(calleeProfile),
     forEachCall: calleeProfile.forEachCallGrouped.bind(calleeProfile),
     formatValue: calleeProfile.formatValue.bind(calleeProfile),

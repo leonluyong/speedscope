@@ -799,7 +799,7 @@ export class FlamechartPanZoomView extends Component<FlamechartPanZoomViewProps,
         onWheel={this.onWheel}
         ref={this.containerRef}
       >
-        <div className={css(style.chartTitleView)}>Main Thread</div>
+        <div className={css(style.chartTitleView)}>{this.props.flamechart.getFlameName()}</div>
         <canvas width={1} height={1} ref={this.overlayCanvasRef} className={css(style.fill)} />
       </div>
     )

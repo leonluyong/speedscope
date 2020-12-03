@@ -399,19 +399,19 @@ export class Application extends StatelessComponent<ApplicationProps> {
 
   async maybeLoadHashParamProfile() {
     if (this.props.hashParams.profileURL) {
-      if (!canUseXHR) {
-        alert(
-          `Cannot load a profile URL when loading from "${window.location.protocol}" URL protocol`,
-        )
-        return
-      }
+      // if (!canUseXHR) {
+      //   alert(
+      //     `Cannot load a profile URL when loading from "${window.location.protocol}" URL protocol`,
+      //   )
+      //   return
+      // }
       this.loadProfile(async () => {
         const response: Response = await fetch(this.props.hashParams.profileURL!)
-        let filename = new URL(this.props.hashParams.profileURL!).pathname
-        if (filename.includes('/')) {
-          filename = filename.slice(filename.lastIndexOf('/') + 1)
-        }
-        return await importProfilesFromArrayBuffer(filename, await response.arrayBuffer())
+        // let filename = new URL(this.props.hashParams.profileURL!).pathname
+        // if (filename.includes('/')) {
+        //   filename = filename.slice(filename.lastIndexOf('/') + 1)
+        // }
+        return await importProfilesFromArrayBuffer("frame-flame-graph.speedscope.json", await response.arrayBuffer())
       })
     } else if (this.props.hashParams.localProfilePath) {
       // There isn't good cross-browser support for XHR of local files, even from

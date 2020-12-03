@@ -43,6 +43,7 @@ const getInvertedCallerFlamegraph = memoizeByShallowEquality(
     getColorBucketForFrame: (frame: Frame) => number
   }): Flamechart => {
     return new Flamechart({
+      flameName: invertedCallerProfile.getName(),
       getTotalWeight: invertedCallerProfile.getTotalNonIdleWeight.bind(invertedCallerProfile),
       forEachCall: invertedCallerProfile.forEachCallGrouped.bind(invertedCallerProfile),
       formatValue: invertedCallerProfile.formatValue.bind(invertedCallerProfile),

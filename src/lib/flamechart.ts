@@ -14,6 +14,7 @@ export interface FlamechartFrame {
 type StackLayer = FlamechartFrame[]
 
 interface FlamechartDataSource {
+  flameName: string
   getTotalWeight(): number
 
   formatValue(v: number): string
@@ -31,6 +32,7 @@ export class Flamechart {
   private layers: StackLayer[] = []
   private totalWeight: number = 0
   private minFrameWidth: number = 1
+  private flameName: string = ""
 
   getTotalWeight() {
     return this.totalWeight
@@ -46,6 +48,9 @@ export class Flamechart {
   }
   formatValue(v: number) {
     return this.source.formatValue(v)
+  }
+  getFlameName(){
+    return this.flameName
   }
 
   getClampedViewportWidth(viewportWidth: number) {
@@ -142,6 +147,8 @@ export class Flamechart {
 
     this.totalWeight = source.getTotalWeight()
     source.forEachCall(openFrame, closeFrame)
+
+    this.flameName = source.flameName
 
     if (!isFinite(this.minFrameWidth)) this.minFrameWidth = 1
   }
