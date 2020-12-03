@@ -103,7 +103,7 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
     const style = this.getStyle()
 
     return (
-      <div className={css(style.fill, commonStyle.vbox)} ref={this.containerRef}>
+      <div className={css(style.fill, commonStyle.vbox, )} ref={this.containerRef}>
         <FlamechartMinimapView
           theme={this.props.theme}
           configSpaceViewportRect={this.props.configSpaceViewportRect}
@@ -117,7 +117,7 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
           {searchResults => (
             <Fragment>
               {this.props.flamechart.map((flame, index) => (
-                <FlamechartPanZoomView
+                 <FlamechartPanZoomView
                   theme={this.props.theme}
                   canvasContext={this.props.canvasContext}
                   flamechart={flame}
@@ -139,13 +139,11 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
           )}
         </ProfileSearchContext.Consumer>
         {this.renderTooltip()}
-        {this.props.selectedNode && (
-          <FlamechartDetailView
-            flamechart={this.props.flamechart[0]}
-            getCSSColorForFrame={this.props.getCSSColorForFrame}
-            selectedNode={this.props.selectedNode}
-          />
-        )}
+        <FlamechartDetailView
+          flamechart={this.props.flamechart[0]}
+          getCSSColorForFrame={this.props.getCSSColorForFrame}
+          selectedNode={this.props.selectedNode}
+        />
       </div>
     )
   }

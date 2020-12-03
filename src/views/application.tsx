@@ -569,11 +569,7 @@ export class Application extends StatelessComponent<ApplicationProps> {
           canvasContext={this.props.canvasContext}
           theme={this.props.theme}
         />
-        <Toolbar
-          saveFile={this.saveFile}
-          browseForFile={this.browseForFile}
-          {...(this.props as ApplicationProps)}
-        />
+        <Toolbar/>
         <div className={css(style.contentContainer)}>{this.renderContent()}</div>
         {this.props.dragActive && <div className={css(style.dragTarget)} />}
       </div>

@@ -790,7 +790,7 @@ export class FlamechartPanZoomView extends Component<FlamechartPanZoomViewProps,
 
     return (
       <div
-        className={css(style.panZoomView, commonStyle.vbox)}
+        className={css(style.panZoomView, commonStyle.vbox, commonStyle.overFlowVisible)}
         onMouseDown={this.onMouseDown}
         onMouseMove={this.onMouseMove}
         onMouseLeave={this.onMouseLeave}
@@ -799,6 +799,7 @@ export class FlamechartPanZoomView extends Component<FlamechartPanZoomViewProps,
         onWheel={this.onWheel}
         ref={this.containerRef}
       >
+        <div className={css(style.chartTitleView)}>Main Thread</div>
         <canvas width={1} height={1} ref={this.overlayCanvasRef} className={css(style.fill)} />
       </div>
     )

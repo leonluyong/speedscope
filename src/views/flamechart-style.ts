@@ -17,9 +17,17 @@ export const getFlamechartStyle = withTheme(theme =>
     minimap: {
       height: Sizes.MINIMAP_HEIGHT,
       borderBottom: `${Sizes.SEPARATOR_HEIGHT}px solid ${theme.fgSecondaryColor}`,
+      marginBottom: '20px',
     },
     panZoomView: {
       flex: 1,
+    },
+    chartTitleView: {
+      height: '20px',
+      fontSize: '12px',
+      background: '#eeeeee',
+      marginTop: '-20px',
+      paddingLeft: '5px',
     },
 
     detailView: {
@@ -30,10 +38,13 @@ export const getFlamechartStyle = withTheme(theme =>
       gridTemplateRows: 'repeat(4, 1fr)',
       borderTop: `${Sizes.SEPARATOR_HEIGHT}px solid ${theme.fgSecondaryColor}`,
       fontSize: FontSize.LABEL,
-      position: 'absolute',
+      position: 'relative',
       background: theme.bgPrimaryColor,
       width: '100vw',
       bottom: 0,
+    },
+    detailViewHide: {
+      padding: 5,
     },
     stackTraceViewPadding: {
       padding: 5,

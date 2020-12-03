@@ -90,34 +90,37 @@ function StackTraceView(props: StackTraceViewProps) {
 interface FlamechartDetailViewProps {
   flamechart: Flamechart
   getCSSColorForFrame: (frame: Frame) => string
-  selectedNode: CallTreeNode
+  selectedNode: CallTreeNode | null
 }
 
 export function FlamechartDetailView(props: FlamechartDetailViewProps) {
   const style = getFlamechartStyle(useTheme())
 
   const {flamechart, selectedNode} = props
-  const {frame} = selectedNode
-
-  return (
-    <div className={css(style.detailView)}>
-      <StatisticsTable
-        title={'This Instance'}
-        cellStyle={style.thisInstanceCell}
-        grandTotal={flamechart.getTotalWeight()}
-        selectedTotal={selectedNode.getTotalWeight()}
-        selectedSelf={selectedNode.getSelfWeight()}
-        formatter={flamechart.formatValue.bind(flamechart)}
-      />
-      <StatisticsTable
-        title={'All Instances'}
-        cellStyle={style.allInstancesCell}
-        grandTotal={flamechart.getTotalWeight()}
-        selectedTotal={frame.getTotalWeight()}
-        selectedSelf={frame.getSelfWeight()}
-        formatter={flamechart.formatValue.bind(flamechart)}
-      />
-      <StackTraceView node={selectedNode} getFrameColor={props.getCSSColorForFrame} />
-    </div>
-  )
+  if (selectedNode) {
+    const {frame} = selectedNode
+    return (
+      <div className={css(style.detailView)}>
+        <StatisticsTable
+          title={'This Instance'}
+          cellStyle={style.thisInstanceCell}
+          grandTotal={flamechart.getTotalWeight()}
+          selectedTotal={selectedNode.getTotalWeight()}
+          selectedSelf={selectedNode.getSelfWeight()}
+          formatter={flamechart.formatValue.bind(flamechart)}
+        />
+        <StatisticsTable
+          title={'All Instances'}
+          cellStyle={style.allInstancesCell}
+          grandTotal={flamechart.getTotalWeight()}
+          selectedTotal={frame.getTotalWeight()}
+          selectedSelf={frame.getSelfWeight()}
+          formatter={flamechart.formatValue.bind(flamechart)}
+        />
+        <StackTraceView node={selectedNode} getFrameColor={props.getCSSColorForFrame} />
+      </div>
+    )
+  } else {
+      return <div className={css(style.detailView)}><span style={{paddingLeft:'5px'}}>No Selection</span></div>
+  }
 }
