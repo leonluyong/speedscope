@@ -17,9 +17,11 @@ function ToolbarRightContent() {
   const style = getStyle(useTheme())
   return (
     <div className={css(style.toolbarRight)}>
-      <span className={css(style.inlineStrong)}>+</span>:zoom in{' '}
+      <span className={css(style.separator)}>Shortcuts</span>
       <span className={css(style.separator)}>|</span>
-      <span className={css(style.inlineStrong)}>-</span>:zoom out{' '}
+      <span className={css(style.inlineStrong)}>+</span>:zoom in
+      <span className={css(style.separator)}>|</span>
+      <span className={css(style.inlineStrong)}>-</span>:zoom out
       <span className={css(style.separator)}>|</span>
       <span className={css(style.inlineStrong)}>0</span>:reset
     </div>
@@ -66,6 +68,7 @@ const getStyle = withTheme(theme =>
     },
     separator: {
       opacity: 0.5,
+      marginLeft: '4px',
     },
     toolbarCenter: {
       paddingTop: 1,
