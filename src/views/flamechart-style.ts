@@ -43,6 +43,12 @@ export const getFlamechartStyle = withTheme(theme =>
       width: '100vw',
       bottom: 0,
     },
+    poweredBy: {
+      position: 'absolute',
+      fontSize: 12,
+      right: 8,
+      color: 'rgba(0,0,0,.5)',
+    },
     detailViewHide: {
       padding: 5,
     },

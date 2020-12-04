@@ -144,6 +144,7 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
           getCSSColorForFrame={this.props.getCSSColorForFrame}
           selectedNode={this.props.selectedNode}
         />
+        <div className={css(style.poweredBy)}>Powered by 🔬speedscope</div>
       </div>
     )
   }
