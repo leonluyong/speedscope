@@ -195,7 +195,7 @@ export function useActiveProfileState(): ActiveProfileState | null {
         flattenRecursion: state.flattenRecursion,
       }),
       allProfile: allProfile,
-      title: hashParams.title||'Time Line',
+      title: hashParams.title||'Select a frame to load function time order',
       index: profileGroup.indexToView,
     }
   }, [])

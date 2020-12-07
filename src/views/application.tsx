@@ -7,13 +7,15 @@ import {FontFamily, FontSize, Duration} from './style'
 import {importEmscriptenSymbolMap as importEmscriptenSymbolRemapper} from '../lib/emscripten'
 import {SandwichViewContainer} from './sandwich-view'
 import {saveToFile} from '../lib/file-format'
-import {ApplicationState, ViewMode, canUseXHR, ActiveProfileState} from '../store'
+import {ApplicationState, ViewMode, ActiveProfileState} from '../store'
 import {StatelessComponent} from '../lib/typed-redux'
 import {LeftHeavyFlamechartView, ChronoFlamechartView} from './flamechart-view-container'
 import {CanvasContext} from '../gl/canvas-context'
 import {Toolbar} from './toolbar'
 import {importJavaScriptSourceMapSymbolRemapper} from '../lib/js-source-map'
 import {Theme, withTheme} from './themes/theme'
+import {useDispatch} from "../lib/preact-redux";
+import {actions} from "../store/actions";
 
 const importModule = import('../import')
 
@@ -120,6 +122,7 @@ export class GLCanvas extends StatelessComponent<GLCanvasProps> {
   }
   componentDidMount() {
     window.addEventListener('resize', this.onWindowResize)
+
   }
   componentWillUnmount() {
     if (this.props.canvasContext) {
@@ -341,14 +344,23 @@ export class Application extends StatelessComponent<ApplicationProps> {
   }
 
   onReceiveMessage = async (e: MessageEvent) =>{
-    const url = e.data;
+    if (e.data.split('|').length > 0) {
+      const frame = e.data.split('|')[1]
+      //set title
+      const d = useDispatch();
+      d(
+          actions.setHashParams({
+            ...this.props.hashParams,
+            title: `Thread Time-Line(Frame:${frame})`
+          }),)
+    }
+    //fetch data
+    const url = e.data.split('|')[0];
     if (!url) {
       return
     }
     this.loadProfile(async () => {
-      console.log("1");
       const response: Response = await fetch(url!)
-      console.log(response);
       return await importProfilesFromArrayBuffer("frame-flame-graph.speedscope.json", await response.arrayBuffer())
     })
   }
@@ -402,6 +414,7 @@ export class Application extends StatelessComponent<ApplicationProps> {
     window.addEventListener('message', this.onReceiveMessage)
     document.addEventListener('paste', this.onDocumentPaste)
     this.maybeLoadHashParamProfile()
+
   }
 
   componentWillUnmount() {
@@ -457,66 +470,7 @@ export class Application extends StatelessComponent<ApplicationProps> {
       <div className={css(style.landingContainer)}>
         <div className={css(style.landingMessage)}>
           <p className={css(style.landingP)}>
-            👋 Hi there! Welcome to 🔬speedscope, an interactive{' '}
-            <a
-              className={css(style.link)}
-              href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html"
-            >
-              flamegraph
-            </a>{' '}
-            visualizer. Use it to help you make your software faster.
-          </p>
-          {canUseXHR ? (
-            <p className={css(style.landingP)}>
-              Drag and drop a profile file onto this window to get started, click the big blue
-              button below to browse for a profile to explore, or{' '}
-              <a tabIndex={0} className={css(style.link)} onClick={this.loadExample}>
-                click here
-              </a>{' '}
-              to load an example profile.
-            </p>
-          ) : (
-            <p className={css(style.landingP)}>
-              Drag and drop a profile file onto this window to get started, or click the big blue
-              button below to browse for a profile to explore.
-            </p>
-          )}
-          <div className={css(style.browseButtonContainer)}>
-            <input
-              type="file"
-              name="file"
-              id="file"
-              onChange={this.onFileSelect}
-              className={css(style.hide)}
-            />
-            <label for="file" className={css(style.browseButton)} tabIndex={0}>
-              Browse
-            </label>
-          </div>
 
-          <p className={css(style.landingP)}>
-            See the{' '}
-            <a
-              className={css(style.link)}
-              href="https://github.com/jlfwong/speedscope#usage"
-              target="_blank"
-            >
-              documentation
-            </a>{' '}
-            for information about supported file formats, keyboard shortcuts, and how to navigate
-            around the profile.
-          </p>
-
-          <p className={css(style.landingP)}>
-            speedscope is open source. Please{' '}
-            <a
-              className={css(style.link)}
-              target="_blank"
-              href="https://github.com/jlfwong/speedscope/issues"
-            >
-              report any issues on GitHub
-            </a>
-            .
           </p>
         </div>
       </div>
@@ -667,6 +621,7 @@ const getStyle = withTheme(theme =>
     },
     landingP: {
       marginBottom: 16,
+      color: '#9e9e9e'
     },
     hide: {
       display: 'none',
