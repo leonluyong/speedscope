@@ -592,6 +592,7 @@ export class CallTreeProfileBuilder extends Profile {
           this.samples.push(prevTop)
           this.weights.push(value - this.lastValue)
         } else if (delta < 0) {
+          console.log(frame);
           throw new Error(
             `Samples must be provided in increasing order of cumulative value. Last sample was ${this.lastValue}, this sample was ${value}`,
           )
@@ -649,6 +650,7 @@ export class CallTreeProfileBuilder extends Profile {
         this.samples.push(leavingStackTop)
         this.weights.push(value - this.lastValue)
       } else if (delta < 0) {
+        console.log(frame);
         throw new Error(
           `Samples must be provided in increasing order of cumulative value. Last sample was ${this
             .lastValue!}, this sample was ${value}`,

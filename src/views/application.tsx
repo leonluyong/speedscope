@@ -340,6 +340,19 @@ export class Application extends StatelessComponent<ApplicationProps> {
     }
   }
 
+  onReceiveMessage = async (e: MessageEvent) =>{
+    const url = e.data;
+    if (!url) {
+      return
+    }
+    this.loadProfile(async () => {
+      console.log("1");
+      const response: Response = await fetch(url!)
+      console.log(response);
+      return await importProfilesFromArrayBuffer("frame-flame-graph.speedscope.json", await response.arrayBuffer())
+    })
+  }
+
   private saveFile = () => {
     if (this.props.profileGroup) {
       const {name, indexToView, profiles} = this.props.profileGroup
@@ -386,6 +399,7 @@ export class Application extends StatelessComponent<ApplicationProps> {
   componentDidMount() {
     window.addEventListener('keydown', this.onWindowKeyDown)
     window.addEventListener('keypress', this.onWindowKeyPress)
+    window.addEventListener('message', this.onReceiveMessage)
     document.addEventListener('paste', this.onDocumentPaste)
     this.maybeLoadHashParamProfile()
   }
@@ -393,6 +407,7 @@ export class Application extends StatelessComponent<ApplicationProps> {
   componentWillUnmount() {
     window.removeEventListener('keydown', this.onWindowKeyDown)
     window.removeEventListener('keypress', this.onWindowKeyPress)
+    window.removeEventListener('message', this.onReceiveMessage)
     document.removeEventListener('paste', this.onDocumentPaste)
   }
 
