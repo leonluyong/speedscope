@@ -360,6 +360,9 @@ export class Application extends StatelessComponent<ApplicationProps> {
       return
     }
     this.loadProfile(async () => {
+      this.props.setLoading(true);
+      this.props.setError(false);
+      console.log("fetch data from " + url);
       const response: Response = await fetch(url!)
       return await importProfilesFromArrayBuffer("frame-flame-graph.speedscope.json", await response.arrayBuffer())
     })
@@ -482,8 +485,8 @@ export class Application extends StatelessComponent<ApplicationProps> {
 
     return (
       <div className={css(style.error)}>
-        <div>😿 Something went wrong.</div>
-        <div>Check the JS console for more details.</div>
+        <div>UPR did not collect relevant graphics data for this frame.</div>
+        <div>Please try to start a new test or select other frames.</div>
       </div>
     )
   }
@@ -555,6 +558,7 @@ const getStyle = withTheme(theme =>
       pointerEvents: 'none',
     },
     error: {
+      backgroundColor: '#ffffff',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
