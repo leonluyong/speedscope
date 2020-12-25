@@ -9,7 +9,7 @@ function ToolbarCenterContent(): JSX.Element {
   if (activeProfileState) {
     return <Fragment>{activeProfileState.title}</Fragment>
   } else {
-    return <Fragment>Select a frame to load function time order</Fragment>
+    return <Fragment>Select a frame to load thread data</Fragment>
   }
 }
 
