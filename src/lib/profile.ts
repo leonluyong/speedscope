@@ -19,6 +19,8 @@ export interface FrameInfo {
 
   // Column in the file, 1-based.
   col?: number
+
+  meta?: {}
 }
 
 export type SymbolRemapper = (
@@ -64,6 +66,8 @@ export class Frame extends HasWeights {
   // Column in the file
   col?: number
 
+  meta?: {}
+
   private constructor(info: FrameInfo) {
     super()
     this.key = info.key
@@ -71,6 +75,7 @@ export class Frame extends HasWeights {
     this.file = info.file
     this.line = info.line
     this.col = info.col
+    this.meta = info.meta
   }
 
   static root = new Frame({

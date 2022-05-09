@@ -42,12 +42,21 @@ export class FlamechartWrapper extends StatelessComponent<FlamechartViewProps> {
     const offset = new Vec2(hover.event.clientX - left, hover.event.clientY - top)
     const style = getStyle(this.props.theme)
 
+    const meta = hover.node.frame.meta ? hover.node.frame.meta : {}
+
     return (
       <Hovertip containerSize={new Vec2(width, height)} offset={offset}>
         <span className={css(style.hoverCount)}>
           {this.formatValue(hover.node.getTotalWeight())}
         </span>{' '}
         {hover.node.frame.name}
+        <div>
+        <div className={css(style.meta)}>
+          {Object.entries(meta).map(([key, value]) => {
+            return <div className={css(style.meta)}>{key}: {value}</div>
+          })}
+        </div>
+        </div>
       </Hovertip>
     )
   }
@@ -95,6 +104,13 @@ export const getStyle = withTheme(theme =>
   StyleSheet.create({
     hoverCount: {
       color: theme.weightColor,
+    },
+    meta:{
+      color: '#959595',
+      lineHeight: '18px',
+      maxWidth: '600px',
+      wordBreak: 'break-all',
+      wordWrap:'break-word',
     },
   }),
 )

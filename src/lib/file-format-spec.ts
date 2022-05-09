@@ -39,6 +39,7 @@ export namespace FileFormat {
   export interface Frame {
     name: string
     file?: string
+    meta?: {}
     line?: number
     col?: number
   }

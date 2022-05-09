@@ -83,13 +83,19 @@ export class FlamechartView extends StatelessComponent<FlamechartViewProps> {
     const offset = new Vec2(hover.event.clientX - left, hover.event.clientY - top)
 
     const style = this.getStyle()
+    const meta = hover.node.frame.meta ? hover.node.frame.meta : {}
 
     return (
-      <Hovertip containerSize={new Vec2(width, height)} offset={offset}>
+      <Hovertip containerSize={new Vec2(width, height)} offset={offset} >
         <span className={css(style.hoverCount)}>
           {this.formatValue(hover.node.getTotalWeight())}
         </span>{' '}
         {hover.node.frame.name}
+        <div className={css(style.meta)}>
+          {Object.entries(meta).map(([key, value]) => {
+            return <div className={css(style.meta)}>{key}: {value}</div>
+          })}
+        </div>
       </Hovertip>
     )
   }

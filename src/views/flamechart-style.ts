@@ -7,6 +7,13 @@ export const getFlamechartStyle = withTheme(theme =>
     hoverCount: {
       color: theme.weightColor,
     },
+    meta:{
+      color: '#959595',
+      lineHeight: '18px',
+      maxWidth: '600px',
+      wordBreak: 'break-all',
+      wordWrap:'break-word',
+    },
     fill: {
       width: '100%',
       height: '100%',

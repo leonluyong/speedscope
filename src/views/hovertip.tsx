@@ -57,9 +57,9 @@ const getStyle = withTheme(theme =>
       zIndex: ZIndex.HOVERTIP,
     },
     hoverTipRow: {
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-      overflowX: 'hidden',
+      // textOverflow: 'ellipsis',
+      // whiteSpace: 'nowrap',
+      // overflowX: 'hidden',
       paddingLeft: HOVERTIP_PADDING,
       paddingRight: HOVERTIP_PADDING,
       maxWidth: Sizes.TOOLTIP_WIDTH_MAX,
