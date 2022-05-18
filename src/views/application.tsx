@@ -473,7 +473,18 @@ export class Application extends StatelessComponent<ApplicationProps> {
       <div className={css(style.landingContainer)}>
         <div className={css(style.landingMessage)}>
           <p className={css(style.landingP)}>
-
+            {/*<div className={css(style.browseButtonContainer)}>*/}
+            {/*  <input*/}
+            {/*      type="file"*/}
+            {/*      name="file"*/}
+            {/*      id="file"*/}
+            {/*      onChange={this.onFileSelect}*/}
+            {/*      className={css(style.hide)}*/}
+            {/*  />*/}
+            {/*  <label htmlFor="file" className={css(style.browseButton)} tabIndex={0}>*/}
+            {/*    Browse*/}
+            {/*  </label>*/}
+            {/*</div>*/}
           </p>
         </div>
       </div>

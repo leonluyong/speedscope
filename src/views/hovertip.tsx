@@ -39,7 +39,8 @@ export function Hovertip(props: HovertipProps) {
   )
 }
 
-const HOVERTIP_PADDING = 2
+const HOVERTIP_PADDING = 10
+const HOVERTIP_PADDING_TOP = 5
 
 const getStyle = withTheme(theme =>
   StyleSheet.create({
@@ -48,8 +49,8 @@ const getStyle = withTheme(theme =>
       background: theme.bgPrimaryColor,
       border: '1px solid black',
       maxWidth: Sizes.TOOLTIP_WIDTH_MAX,
-      paddingTop: HOVERTIP_PADDING,
-      paddingBottom: HOVERTIP_PADDING,
+      paddingTop: HOVERTIP_PADDING_TOP,
+      paddingBottom: HOVERTIP_PADDING_TOP,
       pointerEvents: 'none',
       userSelect: 'none',
       fontSize: FontSize.LABEL,
